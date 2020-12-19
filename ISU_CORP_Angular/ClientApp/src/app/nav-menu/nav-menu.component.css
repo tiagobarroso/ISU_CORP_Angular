@@ -1,0 +1,31 @@
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+  background-color:white;
+}
+
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;    
+  }
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.navbar {
+  background-image: url('https://images.squarespace-cdn.com/content/v1/5984b064e45a7c8bbb3b45d4/1600793383135-QGVB47Y3LOKB5VXUQBC5/ke17ZwdGBToddI8pDm48kLkXF2pIyv_F2eUT9F60jBl7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0iyqMbMesKd95J-X4EagrgU9L3Sa3U8cogeb0tjXbfawd0urKshkc5MgdBeJmALQKw/pexels-andre-furtado-2777935.jpg');
+  background-position:center;
+  background-size:cover;
+  background-repeat: no-repeat;
+}
+
+.navbar-nav{
+    background-color: white;
+}
+
