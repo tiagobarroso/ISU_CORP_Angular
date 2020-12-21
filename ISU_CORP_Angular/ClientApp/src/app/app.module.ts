@@ -12,8 +12,6 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ReservationListComponent } from './reservations/reservation-list.component';
 import { ReservationEditComponent } from './reservations/reservation-edit.component';
 import { ContactHeaderComponent } from './contact/contact-header.component';
@@ -27,8 +25,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     ReservationListComponent,
     ReservationEditComponent,
     ContactHeaderComponent,
@@ -47,8 +43,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     NgxMaskModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: ReservationListComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'reservations', component: ReservationListComponent },
       { path: 'reservations/:id', component: ReservationEditComponent },
       { path: 'contacts', component: ContactListComponent },

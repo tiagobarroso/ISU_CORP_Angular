@@ -1,4 +1,5 @@
 ﻿using ISU_CORP_Angular.Entities;
+using ISU_CORP_Angular.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,34 +13,22 @@ namespace ISU_CORP_Angular.Controllers
     [Route("api/[controller]")]
     public class ContactsController: ControllerBase
     {
-        public ReservationContext _context;
+        public ContactService _contactService;
         public ContactsController(ReservationContext context)
         {
-            this._context = context;
+            this._contactService = new ContactService(context);
         }
 
         [HttpGet("{id}")]
-        public Task<Contact> Get(int id)
+        public Contact Get(int id)
         {
-            return this._context.contacts
-                .Include(c => c.ContactType)
-                .Where(c => c.ContactId == id)
-                .FirstAsync();
+            return this._contactService.GetContactById(id);
         }
 
         [HttpGet]
         public Object Get([FromQuery(Name = "search")] string search, [FromQuery] int page = 1, [FromQuery] int size = 10)
         {
-            var select = this._context.contacts
-                .Include(c => c.ContactType)
-                .Where(c => (search != null && c.Name.Contains(search)) || (search == null));
-
-            var count = select.Count();
-
-            var skip = (page - 1) * size;
-            var list = select.Skip(skip).Take(size).ToList();
-
-            return new { list , count};
+            return this._contactService.GetContacts(search, page, size);
         }
 
         [HttpPatch]
@@ -47,16 +36,15 @@ namespace ISU_CORP_Angular.Controllers
         {
             try
             {
-                _context.contacts.Update(contact);
-
-                _context.SaveChanges();
+                this._contactService.Save(contact);
 
                 return Ok();
             }
             catch (Exception)
             {
+
                 throw;
-            }            
+            }
         }
 
         [HttpDelete("{id}")]
@@ -64,9 +52,7 @@ namespace ISU_CORP_Angular.Controllers
         {
             try
             {
-                _context.contacts.Remove(_context.contacts.Where(c => c.ContactId == id).First());
-
-                _context.SaveChanges();
+                this._contactService.Delete(id);
 
                 return Ok();
             }
@@ -78,9 +64,9 @@ namespace ISU_CORP_Angular.Controllers
 
         [HttpGet]
         [Route("contacttype/all")]
-        public Task<List<ContactType>> GetAllContactTypes()
+        public List<ContactType> GetAllContactTypes()
         {
-            return this._context.contactTypes.ToListAsync();
+            return this._contactService.GetAllContactType();
         }
     }
 }
