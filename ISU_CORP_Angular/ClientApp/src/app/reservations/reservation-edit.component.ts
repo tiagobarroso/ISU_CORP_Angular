@@ -21,6 +21,8 @@ export class ReservationEditComponent implements OnInit {
       date: new FormControl(),
     });
 
+  public _validContactForm: boolean = false;
+
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private route: ActivatedRoute, private router: Router) {
     this._http = http;
     this._baseUrl = baseUrl;
@@ -48,8 +50,32 @@ export class ReservationEditComponent implements OnInit {
     }
   }
 
+  get f() { return this.reservationForm.controls; }
+
   private save() {
-    this._http.patch<any>(this._baseUrl + 'api/reservations/' + this.route.snapshot.paramMap.get('id'),
+    console.log('persisting');
+    // validations
+    if (!this.reservationForm.get('description').value) {
+      alert("Description field cannot be empty");
+      return;
+    }
+
+    if (!this.reservationForm.get('contactId').value) {
+
+      let contact = this.reservationForm.get('contact').value;
+
+      if (!contact || !contact.name) {
+        alert("Contact name field cannot be empty");
+        return;
+      }      
+    }
+
+    if (this.reservationForm.get('contact').value && !this._validContactForm) {
+      alert("Please afill all the required contact fields");
+      return;
+    }
+
+    this._http.patch<any>(this._baseUrl + 'api/reservations',
       this.reservationForm.value)
       .subscribe(result => {
         alert("Saved!");
@@ -63,13 +89,14 @@ export class ReservationEditComponent implements OnInit {
   receiveMessage($event) {
     
     if ($event) {
-      console.log($event)
+      
       if ($event.contactId) {
         this.reservationForm.patchValue({ contactId: $event.contactId, contact: null });
       } else{
-        this.reservationForm.patchValue({ contact: $event });
+        this.reservationForm.patchValue({ contact: $event.contact });
+        
+        this._validContactForm = $event.valid;
       }
-      
     }
   }
 }

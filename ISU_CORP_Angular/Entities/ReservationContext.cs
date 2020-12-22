@@ -15,7 +15,6 @@ namespace ISU_CORP_Angular.Entities
 
         public DbSet<Contact> contacts { get; set; }
         public DbSet<Reservation> reservations { get; set; }
-
         public DbSet<ContactType> contactTypes { get; set; }
     }
 }

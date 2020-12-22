@@ -14,7 +14,7 @@ export class ContactHeaderComponent implements OnInit {
     
   @Input("contactId") contactId: string;
   @Input("isEdition") isEdition: boolean;
-  @Output() messageEvent = new EventEmitter<{contactId}>();
+  @Output() messageEvent = new EventEmitter<any>();
 
   public _http: HttpClient
   public _baseUrl: string;
@@ -45,7 +45,7 @@ export class ContactHeaderComponent implements OnInit {
     this.contactForm.valueChanges.subscribe(x => {
 
       if (!this.contactForm.get("contactId").value || this.isEdition) {
-        this.messageEvent.emit(x);
+        this.messageEvent.emit({ contact: x, valid: this.contactForm.dirty && this.contactForm.valid });
       }
         
     });
@@ -68,7 +68,7 @@ export class ContactHeaderComponent implements OnInit {
         this.contact = result;
         this.contact.birth = formatDate(this.contact.birth, 'yyyy-MM-dd', 'en');
         this.contactForm.patchValue(this.contact);
-        this.messageEvent.emit(this.contact);
+        this.messageEvent.emit({ contactId: this.contact });
 
         if (!this.isEdition) {
           this.contactForm.disable();
@@ -104,22 +104,19 @@ export class ContactHeaderComponent implements OnInit {
   onChangeSearch(val: string) {
     this._http.get<any>(this._baseUrl + 'api/contacts?search=' + val)
       .subscribe(result => {
-        this.contacts = result;
+        this.contacts = result.list || [];
 
       }, error => console.error(error));
-  }
-
-  onFocused(e) {
-    
   }
 
   inputCleared() {
     this.contactForm.reset();
     this.contactForm.enable();
     this.contactForm.patchValue({contactId : 0})
-    this.messageEvent.emit(this.contactForm.value);
+    this.messageEvent.emit({ contact: this.contactForm.value, valid: false});
   }
 }
+
 interface Contact {
   contactId: number,
   name: string,

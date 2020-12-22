@@ -20,7 +20,9 @@
 
         <div class="row">
           <div class="col-md-12">
-            <editor *ngIf="reservation" formControlName="description" [init]="{
+            <editor *ngIf="reservation" formControlName="description"
+                    [ngClass]="{ 'is-invalid': f.description.touched && f.description.errors }"
+                    [init]="{
            height: 500,
            menubar: false,
            plugins: [

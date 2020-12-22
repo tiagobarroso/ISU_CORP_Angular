@@ -8,12 +8,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-contact-edit',
   templateUrl: './contact-edit.component.html'
 })
+
 export class ContactEditComponent {
   public _http: HttpClient
   public _baseUrl: string;
   public contactId: string;
   public contact: Contact;
-  public newContact: boolean = true; 
+  public newContact: boolean = true;
+  private _validContactForm: boolean = false;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private route: ActivatedRoute, private router: Router) {
     this._http = http;
@@ -27,6 +29,13 @@ export class ContactEditComponent {
   }
 
   private save() {
+
+    if (!this._validContactForm) {
+      alert("Please afill all the required contact fields");
+
+      return;
+    }
+
     this._http.patch<any>(this._baseUrl + 'api/contacts',
       this.contact)
       .subscribe(result => {
@@ -38,10 +47,13 @@ export class ContactEditComponent {
   receiveMessage($event) {
 
     if ($event) {
-      this.contact = $event;
+      this.contact = $event.contact;
+
+      this._validContactForm = $event.valid;
     }
   }
 }
+
 interface Contact {
   contactId: number,
   name: string,
