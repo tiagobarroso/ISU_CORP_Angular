@@ -1,9 +1,9 @@
 # ISU_CORP_Angular
 ##### This is a test project for ISU Corp Company
-This intent of this project is to demonstrate development habilities for a technical test.
+This intent of this project is to demonstrate development abilities for a technical test.
 It was developed based on a document and followed most of its requirements.
 
-The project was built using the default ASP .NET Core + AngularJS sugested by the Visual Studio project Wizard.
+The project was built using the default ASP .NET Core + AngularJS suggested by the Visual Studio project Wizard.
 It has some external components such as a richtext editor and a paginator controller.
 
 The project as whole still mostly experimental.
