@@ -30,6 +30,7 @@
     "core-js": "^3.3.3",
     "jquery": "3.4.1",
     "jw-angular-pagination": "^1.2.0",
+    "ngx-bootstrap": "^6.2.0",
     "ngx-mask": "^11.1.4",
     "ngx-pagination": "^5.0.0",
     "oidc-client": "^1.9.1",

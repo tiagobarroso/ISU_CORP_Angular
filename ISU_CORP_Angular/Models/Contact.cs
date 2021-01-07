@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ISU_CORP_Angular.Models
@@ -24,18 +25,63 @@ namespace ISU_CORP_Angular.Models
                 .First();
         }
 
-        public Object GetContacts(string search, int page, int size)
+        public Object GetContacts(string search, int page, int size, string sort)
         {
             var select = this._context.contacts
-                .Include(c => c.ContactType)
                 .Where(c => (search != null && c.Name.Contains(search)) || (search == null));
+
+            dealSort(sort, ref select);
 
             var count = select.Count();
 
             var skip = (page - 1) * size;
-            var list = select.Skip(skip).Take(size).ToList();
+            var list = select
+                .Include(c => c.ContactType)
+                .Skip(skip)
+                .Take(size)
+                .ToList();
 
             return new { list, count };
+        }
+
+        private static void dealSort(string sort, ref IQueryable<Contact> select)
+        {
+            if (sort == null)
+            {
+                return;
+            }
+
+            var sortTerm = sort.Trim('-');
+            bool asc = !sort.Contains('-');
+
+            Expression<Func<Contact, dynamic>> exp = null;
+
+            switch (sortTerm)
+            {
+                case "contactName":
+                    exp = s => s.Name;
+                    break;
+                case "contactType":
+                    exp = s => s.ContactType.Name;
+                    break;
+                case "contactPhone":
+                    exp = s => s.Phone;
+                    break;
+                case "contactBirth":
+                    exp = s => s.Birth;
+                    break;
+                default:
+                    return;
+            }
+
+            if (asc)
+            {
+                select = select.OrderBy(exp);
+            }
+            else
+            {
+                select = select.OrderByDescending(exp);
+            }
         }
 
         public void Save(Contact contact)

@@ -7,13 +7,19 @@
       <a href="reservations/new" class="btn  btn-primary float-right">CREATE RESERVATION</a>
     </div>
   </div>
-
+  
   <div class="row">
+
     <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="reservations">
       <thead>
         <tr>
-          <th>Contact Name</th>
-          <th>Date</th>
+          <th (click)="loadPage(page, sortBy =='contactName' ? 'contactName-' : 'contactName');">
+            Contact Name <small>{{sortBy && sortBy.includes('contactName') ? (sortBy =='contactName' ?  'A' : 'D') : ''}}</small>
+          </th>
+          <th (click)="loadPage(page, sortBy =='date' ? 'date-' : 'date');">
+            Date
+            <small>{{sortBy && sortBy.includes('date') ? (sortBy =='date' ?  'A' : 'D') : ''}}</small>
+          </th>
           <th></th>
         </tr>
       </thead>

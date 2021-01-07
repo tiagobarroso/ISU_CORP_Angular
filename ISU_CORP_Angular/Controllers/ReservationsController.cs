@@ -22,11 +22,11 @@ namespace ISU_CORP_Angular.Controllers
         }
 
         // GET: Reservations
-        public Object Get([FromQuery] int page = 1, [FromQuery] int size = 10)
+        public Object Get([FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string sortBy = null)
         {
             var count = 0;
             
-            List<Reservation> list = _reservationService.GetAllReservations(page, size, out count);
+            List<Reservation> list = _reservationService.GetAllReservations(page, size, sortBy, out count);
 
             return new {  list = list, count = count };
         }
@@ -38,7 +38,7 @@ namespace ISU_CORP_Angular.Controllers
             return await _reservationService.GetAllReservationById(id);
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch]
         public async Task<OkResult> Patch([FromBody] Reservation reservation)
         {
             reservation.Date = reservation.Date != DateTime.MinValue ? reservation.Date : DateTime.UtcNow;

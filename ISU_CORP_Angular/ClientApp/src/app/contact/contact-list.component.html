@@ -12,10 +12,15 @@
     <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="contacts">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Phone</th>
-          <th>Birth</th>
+          <th (click)="loadPage(page, sortBy =='contactName' ? 'contactName-' : 'contactName');">
+            Name <small>{{sortBy && sortBy.includes('contactName') ? (sortBy =='contactName' ?  'A' : 'D') : ''}}</small> </th>
+          <th (click)="loadPage(page, sortBy =='contactType' ? 'contactType-' : 'contactType');">
+            Type <small>{{sortBy && sortBy.includes('contactType') ? (sortBy =='contactType' ?  'A' : 'D') : ''}} </small> </th>
+          <th (click)="loadPage(page, sortBy =='contactPhone' ? 'contactPhone-' : 'contactPhone');">
+            Phone <small>{{sortBy && sortBy.includes('contactPhone') ? (sortBy =='contactPhone' ?  'A' : 'D') : ''}} </small> </th>
+          <th (click)="loadPage(page, sortBy =='contactBirth' ? 'contactBirth-' : 'contactBirth');">
+            Birth <small>{{sortBy && sortBy.includes('contactBirth') ? (sortBy =='contactBirth' ?  'A' : 'D') : ''}} </small> </th>
+          <th></th>
           <th></th>
         </tr>
       </thead>

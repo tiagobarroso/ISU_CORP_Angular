@@ -17,6 +17,7 @@ import { ReservationEditComponent } from './reservations/reservation-edit.compon
 import { ContactHeaderComponent } from './contact/contact-header.component';
 import { ContactListComponent } from './contact/contact-list.component';
 import { ContactEditComponent } from './contact/contact-edit.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
@@ -29,7 +30,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     ReservationEditComponent,
     ContactHeaderComponent,
     ContactEditComponent,
-    ContactListComponent    
+    ContactListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,7 +48,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
       { path: 'reservations/:id', component: ReservationEditComponent },
       { path: 'contacts', component: ContactListComponent },
       { path: 'contacts/:id', component: ContactEditComponent },
-    ])
+    ]),
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

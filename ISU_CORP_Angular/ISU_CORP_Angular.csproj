@@ -27,9 +27,19 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\shared\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\shared\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\shared\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\shared\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\shared\app-modal.component.css" />
+    <None Remove="ClientApp\src\app\shared\app-modal.component.html" />
+    <None Remove="ClientApp\src\app\shared\app-modal.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

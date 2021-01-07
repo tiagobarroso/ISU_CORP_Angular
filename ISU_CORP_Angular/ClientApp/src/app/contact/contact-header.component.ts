@@ -1,4 +1,4 @@
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
@@ -27,6 +27,11 @@ export class ContactHeaderComponent implements OnInit {
   public submitted = false;
   public loaded = false;
 
+  /**
+   * Constructor
+   * @param http
+   * @param baseUrl
+   */
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._http = http;
     this._baseUrl = baseUrl;
@@ -36,25 +41,25 @@ export class ContactHeaderComponent implements OnInit {
     this.contactForm = new FormGroup(
       {
         contactId: new FormControl(),
-        name: new FormControl(),
-        contactTypeId: new FormControl({ disabled: this.isEdition || true }),
-        phone: new FormControl({ disabled: this.isEdition || true }),
-        birth: new FormControl({ disabled: this.isEdition || true }),
+        name: new FormControl('', Validators.required),
+        contactTypeId: new FormControl({ required: true, disabled: this.isEdition || true }, Validators.required),
+        phone: new FormControl({ disabled: this.isEdition || true }, Validators.required),
+        birth: new FormControl({ disabled: this.isEdition || true }, Validators.required),
       });
 
     this.contactForm.valueChanges.subscribe(x => {
 
       if (!this.contactForm.get("contactId").value || this.isEdition) {
-        this.messageEvent.emit({ contact: x, valid: this.contactForm.dirty && this.contactForm.valid });
+        this.messageEvent.emit({ contact: x, valid: this.contactForm.valid });
       }
         
     });
   }
 
-  get f() { return this.contactForm.controls; }
-
+  // basic load
   private loadContact() {
-    
+
+    // validates if it is a new one
     if (!this.contactId) {
       this.contact = { contactId: 0, name: "", phone: "", birth: "", contactTypeId: null }
       this.contactForm.patchValue(this.contact);
@@ -63,23 +68,26 @@ export class ContactHeaderComponent implements OnInit {
       return;
     }
 
+    // http get call
     this._http.get<any>(this._baseUrl + 'api/contacts/' + this.contactId)
       .subscribe(result => {
         this.contact = result;
         this.contact.birth = formatDate(this.contact.birth, 'yyyy-MM-dd', 'en');
         this.contactForm.patchValue(this.contact);
-        this.messageEvent.emit({ contactId: this.contact });
+        this.messageEvent.emit({ contact: this.contact });
 
         if (!this.isEdition) {
           this.contactForm.disable();
         }
         
         this.contactForm.get('name').enable();
+
         this.loaded = true;
 
     }, error => console.error(error));
   }
 
+  // load types
   private loadContactTypes() {
     this._http.get<any>(this._baseUrl + 'api/contacts/contacttype/all')
       .subscribe(result => {
@@ -93,6 +101,7 @@ export class ContactHeaderComponent implements OnInit {
     this.loadContact();
   }
 
+  // select contact item event
   selectEvent(item) {
 
     if (this.contactId != item.contactId) {
@@ -101,7 +110,11 @@ export class ContactHeaderComponent implements OnInit {
     }     
   }
 
+  // search on type event
   onChangeSearch(val: string) {
+
+    //http call
+    // TODO: apply limit not to bring all
     this._http.get<any>(this._baseUrl + 'api/contacts?search=' + val)
       .subscribe(result => {
         this.contacts = result.list || [];
@@ -109,12 +122,15 @@ export class ContactHeaderComponent implements OnInit {
       }, error => console.error(error));
   }
 
+  // contact input clear event
   inputCleared() {
     this.contactForm.reset();
     this.contactForm.enable();
     this.contactForm.patchValue({contactId : 0})
     this.messageEvent.emit({ contact: this.contactForm.value, valid: false});
   }
+
+  get f() { return this.contactForm.controls; }
 }
 
 interface Contact {

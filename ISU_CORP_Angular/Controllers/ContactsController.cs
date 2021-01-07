@@ -26,9 +26,9 @@ namespace ISU_CORP_Angular.Controllers
         }
 
         [HttpGet]
-        public Object Get([FromQuery(Name = "search")] string search, [FromQuery] int page = 1, [FromQuery] int size = 10)
+        public Object Get([FromQuery(Name = "search")] string search, [FromQuery] int page = 1, [FromQuery] int size = 10, [FromQuery] string sortBy = null)
         {
-            return this._contactService.GetContacts(search, page, size);
+            return this._contactService.GetContacts(search, page, size, sortBy);
         }
 
         [HttpPatch]
