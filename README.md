@@ -17,15 +17,15 @@ Several features would be implemented more graciously but I kept simple in order
  - There's a small script on project root folder ('helper_script.sql') to insert the intial type data
 
 ## Achieved
- [X] Set the default app route to an specific page (reservation list)
- [X] Implement lists sort clicking on header
- [X] Reservation Edit button navigation to edit page
- [X] Reservation edit page with an external richtext component
- [X] [partially] Front end form fill validations
- [ ] Backend end form fill validation (it is currently using the dafult ASP .NET layer)
- [X] Implement Contacts list sort
- [X] Contact Edit button navigation to edit page
- [X] Contact edit page (reusing the same component)
- [X] [partially] Contact search on type input
- [X] [partially] Input masks
- [X] [partially] Page responsivity (It miss some mobile implementation)
+ - [x] Set the default app route to an specific page (reservation list)
+ - [x] Implement lists sort clicking on header 
+ - [x] Reservation Edit button navigation to edit page
+ - [x] Reservation edit page with an external richtext component
+ - [x] [partially] Front end form fill validations
+ - [ ] Backend end form fill validation (it is currently using the dafult ASP .NET layer)
+ - [x] Implement Contacts list sort
+ - [x] Contact Edit button navigation to edit page
+ - [x] Contact edit page (reusing the same component)
+ - [x] [partially] Contact search on type input
+ - [x] [partially] Input masks
+ - [x] [partially] Page responsivity (It miss some mobile implementation)
