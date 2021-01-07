@@ -71,6 +71,11 @@ export class ContactHeaderComponent implements OnInit {
     // http get call
     this._http.get<any>(this._baseUrl + 'api/contacts/' + this.contactId)
       .subscribe(result => {
+
+        if (!result) {
+          return;
+        }
+
         this.contact = result;
         this.contact.birth = formatDate(this.contact.birth, 'yyyy-MM-dd', 'en');
         this.contactForm.patchValue(this.contact);
@@ -84,7 +89,9 @@ export class ContactHeaderComponent implements OnInit {
 
         this.loaded = true;
 
-    }, error => console.error(error));
+      }, error => {
+          alert("Error loading Contact.");
+      });
   }
 
   // load types

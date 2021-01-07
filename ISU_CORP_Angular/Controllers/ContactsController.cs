@@ -22,7 +22,14 @@ namespace ISU_CORP_Angular.Controllers
         [HttpGet("{id}")]
         public Contact Get(int id)
         {
-            return this._contactService.GetContactById(id);
+            try
+            {
+                return this._contactService.GetContactById(id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }            
         }
 
         [HttpGet]

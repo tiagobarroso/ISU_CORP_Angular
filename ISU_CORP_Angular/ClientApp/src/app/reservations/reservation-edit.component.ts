@@ -74,11 +74,22 @@ export class ReservationEditComponent implements OnInit {
       this._http.get<any>(this._baseUrl + 'api/reservations/' + reservationId)
         .subscribe(result => {
 
+          if (!result) {
+            this.message = 'Error loading Reservation!';
+            this._modalRef = this.modalService.show(this.template);
+            this.router.navigate(['/reservations']);
+          }
+
           // update results
           this.reservation = result;
           this.reservation.contactId = result.contact.contactId;
           this.reservationForm.patchValue(this.reservation);
-        }, error => console.error(error));
+        }, error => {
+
+            this.message = 'Error loading Reservation!';
+            this._modalRef = this.modalService.show(this.template);
+            this.router.navigate(['/reservations']);
+        });
     } else {
 
       // start a new empty one

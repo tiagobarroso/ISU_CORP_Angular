@@ -22,7 +22,7 @@ namespace ISU_CORP_Angular.Models
             return this._context.contacts
                 .Include(c => c.ContactType)
                 .Where(c => c.ContactId == id)
-                .First();
+                .FirstOrDefault();
         }
 
         public Object GetContacts(string search, int page, int size, string sort)
